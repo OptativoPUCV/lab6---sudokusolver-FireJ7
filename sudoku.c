@@ -45,52 +45,51 @@ void print_node(Node* n){
 
 int is_valid(Node* n)
 {
-   int i, j, k;
-       int seen[10];
+    int f, c, i;// Fila, Columna y indice
+       int vistos[10]; // Arreglo para marcar los números vistos
 
-       // Check rows
-       for (i = 0; i < 9; i++) {
-           for (k = 0; k < 10; k++) seen[k] = 0;
-           for (j = 0; j < 9; j++) {
-               int num = n->sudo[i][j];
+       // Verificar filas
+       for (f = 0; f < 9; f++) {
+           for (i = 0; i < 10; i++) vistos[i] = 0; // Reiniciar el arreglo vistos
+           for (c = 0; c < 9; c++) {
+               int num = n->sudo[f][c];
                if (num != 0) {
-                   if (seen[num]) return 0;
-                   seen[num] = 1;
+                   if (vistos[num]) return 0; // Si el número ya se ha visto, es inválido
+                   vistos[num] = 1; // Marcar el número como visto
                }
            }
        }
 
-       // Check columns
-       for (j = 0; j < 9; j++) {
-           for (k = 0; k < 10; k++) seen[k] = 0;
-           for (i = 0; i < 9; i++) {
-               int num = n->sudo[i][j];
+       // Verificar columnas
+       for (c = 0; c < 9; c++) {
+           for (i = 0; i < 10; i++) vistos[i] = 0; // Reiniciar el arreglo vistos
+           for (f = 0; f < 9; f++) {
+               int num = n->sudo[f][c];
                if (num != 0) {
-                   if (seen[num]) return 0;
-                   seen[num] = 1;
+                   if (vistos[num]) return 0; // Si el número ya se ha visto, es inválido
+                   vistos[num] = 1; // Marcar el número como visto
                }
            }
        }
 
-       // Check 3x3 subgrids
-       for (int row = 0; row < 9; row += 3) {
-           for (int col = 0; col < 9; col += 3) {
-               for (k = 0; k < 10; k++) seen[k] = 0;
-               for (i = row; i < row + 3; i++) {
-                   for (j = col; j < col + 3; j++) {
-                       int num = n->sudo[i][j];
+       // Verificar submatrices de 3x3
+       for (int f_inicial = 0; f_inicial < 9; f_inicial += 3) {
+           for (int c_inicial = 0; c_inicial < 9; c_inicial += 3) {
+               for (i = 0; i < 10; i++) vistos[i] = 0; // Reiniciar el arreglo vistos
+               for (f = f_inicial; f < f_inicial + 3; f++) {
+                   for (c = c_inicial; c < c_inicial + 3; c++) {
+                       int num = n->sudo[f][c];
                        if (num != 0) {
-                           if (seen[num]) return 0;
-                           seen[num] = 1;
+                           if (vistos[num]) return 0; // Si el número ya se ha visto, es inválido
+                           vistos[num] = 1; // Marcar el número como visto
                        }
                    }
                }
            }
        }
 
-       return 1;
+       return 1; // Si todas las verificaciones pasan, el nodo es válido
    }
-
 
 
 List* get_adj_nodes(Node* n)
@@ -101,12 +100,28 @@ List* get_adj_nodes(Node* n)
 }
 
 
-int is_final(Node* n){
-    return 0;
-}
+int is_final(Node* n)
+{
+   // Verificar si todas las celdas están llenas
+       for (int f = 0; f < 9; f++) {
+           for (int c = 0; c < 9; c++) {
+               if (n->sudo[f][c] == 0) {
+                   return 0; // Si hay alguna celda vacía, no es una solución final
+               }
+           }
+       }
+
+       // Verificar si el nodo es válido
+       if (!is_valid(n)) {
+           return 0; // Si el nodo no es válido, no es una solución final
+       }
+
+       return 1; // Si todas las celdas están llenas y es válido, es una solución final
+   }
 
 Node* DFS(Node* initial, int* cont)
 {
+   
    
   return NULL;
 }
