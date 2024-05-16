@@ -94,30 +94,35 @@ int is_valid(Node* n)
 
 List* get_adj_nodes(Node* n)
 {
-      
-    List* list=createList();
-    return list;
-}
+   List* list = createList();
+       int f, c;
 
-
-int is_final(Node* n)
-{
-   // Verificar si todas las celdas están llenas
-       for (int f = 0; f < 9; f++) {
-           for (int c = 0; c < 9; c++) {
+       // Encontrar la primera celda vacía
+       for (f = 0; f < 9; f++) {
+           for (c = 0; c < 9; c++) {
                if (n->sudo[f][c] == 0) {
-                   return 0; // Si hay alguna celda vacía, no es una solución final
+                   // Generar nodos con valores del 1 al 9 en la celda vacía
+                   for (int num = 1; num <= 9; num++) {
+                       Node* nuevo_nodo = copy(n);
+                       nuevo_nodo->sudo[f][c] = num;
+                       if (is_valid(nuevo_nodo)) {
+                           pushBack(list, nuevo_nodo);
+                       } else {
+                           free(nuevo_nodo);
+                       }
+                   }
+                   return list;
                }
            }
        }
 
-       // Verificar si el nodo es válido
-       if (!is_valid(n)) {
-           return 0; // Si el nodo no es válido, no es una solución final
-       }
-
-       return 1; // Si todas las celdas están llenas y es válido, es una solución final
+       return list;
    }
+      
+int is_final(Node* n)
+{
+    return 0;
+}
 
 Node* DFS(Node* initial, int* cont)
 {
