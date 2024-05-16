@@ -43,13 +43,59 @@ void print_node(Node* n){
     printf("\n");
 }
 
-int is_valid(Node* n){
+int is_valid(Node* n)
+{
+   int i, j, k;
+       int seen[10];
 
-    return 1;
-}
+       // Check rows
+       for (i = 0; i < 9; i++) {
+           for (k = 0; k < 10; k++) seen[k] = 0;
+           for (j = 0; j < 9; j++) {
+               int num = n->sudo[i][j];
+               if (num != 0) {
+                   if (seen[num]) return 0;
+                   seen[num] = 1;
+               }
+           }
+       }
+
+       // Check columns
+       for (j = 0; j < 9; j++) {
+           for (k = 0; k < 10; k++) seen[k] = 0;
+           for (i = 0; i < 9; i++) {
+               int num = n->sudo[i][j];
+               if (num != 0) {
+                   if (seen[num]) return 0;
+                   seen[num] = 1;
+               }
+           }
+       }
+
+       // Check 3x3 subgrids
+       for (int row = 0; row < 9; row += 3) {
+           for (int col = 0; col < 9; col += 3) {
+               for (k = 0; k < 10; k++) seen[k] = 0;
+               for (i = row; i < row + 3; i++) {
+                   for (j = col; j < col + 3; j++) {
+                       int num = n->sudo[i][j];
+                       if (num != 0) {
+                           if (seen[num]) return 0;
+                           seen[num] = 1;
+                       }
+                   }
+               }
+           }
+       }
+
+       return 1;
+   }
 
 
-List* get_adj_nodes(Node* n){
+
+List* get_adj_nodes(Node* n)
+{
+      
     List* list=createList();
     return list;
 }
@@ -59,7 +105,9 @@ int is_final(Node* n){
     return 0;
 }
 
-Node* DFS(Node* initial, int* cont){
+Node* DFS(Node* initial, int* cont)
+{
+   
   return NULL;
 }
 
