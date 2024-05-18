@@ -158,6 +158,7 @@ Node* DFS(Node* initial, int* cont)
         }
         List* list = get_adj_nodes(n);
         Node* aux = first(list);
+
         while (aux)
         {
             push(S, aux);
@@ -165,15 +166,17 @@ Node* DFS(Node* initial, int* cont)
         }
         free(n);
         (*cont)++;
-
-    
+        
+            
+    }
   return NULL;
 }
 
 
 
-
-int main( int argc, char *argv[] ){
+/*
+int main( int argc, char *argv[] )
+{
 
   Node* initial= read_file("s12a.txt");;
 
@@ -183,4 +186,4 @@ int main( int argc, char *argv[] ){
   print_node(final);
 
   return 0;
-}
+}*/
