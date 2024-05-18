@@ -45,50 +45,55 @@ void print_node(Node* n){
 
 int is_valid(Node* n)
 {
-    int f, c, i;// Fila, Columna y indice
-       int vistos[10]; // Arreglo para marcar los números vistos
+    int f, c, i;
+       int vistos[10];
 
-       // Verificar filas
-       for (f = 0; f < 9; f++) {
-           for (i = 0; i < 10; i++) vistos[i] = 0; // Reiniciar el arreglo vistos
-           for (c = 0; c < 9; c++) {
+       for (f = 0; f < 9; f++) 
+       {
+           for (i = 0; i < 10; i++) vistos[i] = 0; 
+           for (c = 0; c < 9; c++) 
+           {
                int num = n->sudo[f][c];
-               if (num != 0) {
-                   if (vistos[num]) return 0; // Si el número ya se ha visto, es inválido
-                   vistos[num] = 1; // Marcar el número como visto
+               if (num != 0) 
+               {
+                   if (vistos[num]) return 0; 
+                   vistos[num] = 1; 
                }
            }
        }
 
-       // Verificar columnas
-       for (c = 0; c < 9; c++) {
-           for (i = 0; i < 10; i++) vistos[i] = 0; // Reiniciar el arreglo vistos
-           for (f = 0; f < 9; f++) {
+       for (c = 0; c < 9; c++) 
+       {
+           for (i = 0; i < 10; i++) vistos[i] = 0; 
+           for (f = 0; f < 9; f++) 
+           {
                int num = n->sudo[f][c];
-               if (num != 0) {
-                   if (vistos[num]) return 0; // Si el número ya se ha visto, es inválido
-                   vistos[num] = 1; // Marcar el número como visto
+               if (num != 0) 
+               {
+                   if (vistos[num]) return 0; 
+                   vistos[num] = 1; 
                }
            }
        }
 
-       // Verificar submatrices de 3x3
        for (int f_inicial = 0; f_inicial < 9; f_inicial += 3) {
            for (int c_inicial = 0; c_inicial < 9; c_inicial += 3) {
-               for (i = 0; i < 10; i++) vistos[i] = 0; // Reiniciar el arreglo vistos
-               for (f = f_inicial; f < f_inicial + 3; f++) {
-                   for (c = c_inicial; c < c_inicial + 3; c++) {
+               for (i = 0; i < 10; i++) vistos[i] = 0;
+               for (f = f_inicial; f < f_inicial + 3; f++) 
+               {
+                   for (c = c_inicial; c < c_inicial + 3; c++) 
+                   {
                        int num = n->sudo[f][c];
                        if (num != 0) {
-                           if (vistos[num]) return 0; // Si el número ya se ha visto, es inválido
-                           vistos[num] = 1; // Marcar el número como visto
+                           if (vistos[num]) return 0;
+                           vistos[num] = 1; 
                        }
                    }
                }
            }
        }
 
-       return 1; // Si todas las verificaciones pasan, el nodo es válido
+       return 1; 
    }
 
 
@@ -97,17 +102,20 @@ List* get_adj_nodes(Node* n)
    List* list = createList();
        int f, c;
 
-       // Encontrar la primera celda vacía
+
        for (f = 0; f < 9; f++) {
            for (c = 0; c < 9; c++) {
-               if (n->sudo[f][c] == 0) {
-                   // Generar nodos con valores del 1 al 9 en la celda vacía
-                   for (int num = 1; num <= 9; num++) {
+               if (n->sudo[f][c] == 0) 
+               {
+                   
+                   for (int num = 1; num <= 9; num++) 
+                   {
                        Node* nuevo_nodo = copy(n);
                        nuevo_nodo->sudo[f][c] = num;
                        if (is_valid(nuevo_nodo)) {
                            pushBack(list, nuevo_nodo);
-                       } else {
+                       } else 
+                       {
                            free(nuevo_nodo);
                        }
                    }
@@ -121,7 +129,19 @@ List* get_adj_nodes(Node* n)
       
 int is_final(Node* n)
 {
-    return 0;
+    int f, c;
+    for (f = 0; f < 9; f++)
+    {
+        for (c = 0; c < 9; c++)
+        {
+            if (n->sudo[f][c] == 0)
+            {
+                return 0;
+            }   
+        }   
+    }
+    return 1;
+    
 }
 
 Node* DFS(Node* initial, int* cont)
